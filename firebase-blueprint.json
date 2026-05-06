@@ -1,0 +1,65 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account information and progress.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "premium": { "type": "boolean" },
+        "points": { "type": "integer" },
+        "streak": { "type": "integer" },
+        "lastActive": { "type": "string", "format": "date-time" },
+        "preferredLanguage": { "type": "string", "enum": ["en", "np"] }
+      },
+      "required": ["uid", "email"]
+    },
+    "Chat": {
+      "title": "Chat Message",
+      "description": "A message in a chat conversation.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "model"] },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "language": { "type": "string", "enum": ["en", "np"] }
+      },
+      "required": ["userId", "role", "content", "timestamp"]
+    },
+    "MockTest": {
+      "title": "Mock Test",
+      "description": "Details of a completed mock test.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "category": { "type": "string" },
+        "score": { "type": "integer" },
+        "totalQuestions": { "type": "integer" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "answers": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      },
+      "required": ["userId", "category", "score", "totalQuestions", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents."
+    },
+    "/users/{userId}/chats/{chatId}": {
+      "schema": "Chat",
+      "description": "User-specific AI chat history."
+    },
+    "/users/{userId}/mockTests/{testId}": {
+      "schema": "MockTest",
+      "description": "User-specific mock test results."
+    }
+  }
+}
